@@ -8,4 +8,6 @@ log.info 'Starting'
 log.warning 'Nothing to do!'
 sayHello 'Jenkins'
 sayHello ()
-chatNotifySend channel: "@${bearyChan}", text: "this messages from jenkins", endpoint: "${bearyUrl}"
+node('jenkins-slave-build1') {
+  chatNotifySend channel: "@${bearyChan}", text: "this messages from jenkins", endpoint: "${bearyUrl}"
+}
