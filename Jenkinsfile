@@ -25,7 +25,7 @@ def notifyBearychat(text, channel, attachments) {
         attachments: attachments
     ])
 
-    sh "curl -X POST --data-urlencode \'payload=${payload}\' ${bearyUrl}"
+    sh "curl -X POST --data-urlencode \'payload=${payload}\' ${env.bearyChatUrl}"
 }
 
 node ('jenkins-slave-build1') {
