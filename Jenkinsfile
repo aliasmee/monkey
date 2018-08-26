@@ -1,8 +1,19 @@
 @Library('aistarsea-shared-lib') _
+def lib = library('aistarsea-shared-lib').io.aistarsea
 import groovy.json.JsonOutput
+
+def mmUtils = lib.MessageLego.new()
 
 def bearyUrl="${env.bearyChatUrl}"
 def bearyChan="${env.bearyChatGroup}"
+
+def author = ""
+def message = ""
+def commitId = ""
+def testSummary = ""
+def total = 0
+def failed = 0
+def skipped = 0
 
 
 log.info 'Starting'
@@ -10,26 +21,22 @@ log.warning 'Nothing to do!'
 sayHello 'Jenkins'
 sayHello ()
 
+
 node('jenkins-slave-build1') {
+    stage ("Test Messages Notify") {
+        checkout scm
+        chatNotifySend channel: "${bearyChan}", text: "${JOB_NAME} [${BUILD_DISPLAY_NAME}](${BUILD_URL})", endpoint: "${bearyUrl}"
 
-  chatNotifySend channel: "${bearyChan}", text: "**this messages from jenkins", endpoint: "${bearyUrl}"
-}
-
-
-
-def notifyBearychat(text, channel, attachments) {
-
-    def payload = JsonOutput.toJson([text: text,
-        channel: channel,
-        username: "Jenkins",
-        attachments: attachments
-    ])
-
-    sh "curl -X POST --data-urlencode \'payload=${payload}\' ${env.bearyChatUrl}"
-}
-
-node ('jenkins-slave-build1') {
-    stage("Post to beary") {
-       notifyBearychat("Success!", "${bearyChan}" , [])
+//        println(getCommitAuthor())
+//        println(getCommitMsg())
+//        println(getCommitHash())
+        someMsgTest = mmUtils.commitMsg()
+        println(someMsgTest)
+        
+        testMsg = mmUtils.testMsg("${BRANCH_NAME}", "some test result", "${someMsgTest}",'',mmUtils.colorLegible('good'))
+        println(testMsg)
+        chatNotifySend attachments: "${testMsg}", channel: "${bearyChan}", text: "${JOB_NAME} [${BUILD_DISPLAY_NAME}](${BUILD_URL})", endpoint: "${bearyUrl}"
+        println(currentBuild.currentResult)
     }
 }
+
