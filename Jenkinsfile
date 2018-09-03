@@ -1,4 +1,5 @@
 @Library('aistarsea-shared-lib') _
+
 // triggers pipeline worked at every 3rd minute
 // properties([pipelineTriggers([cron('H/3 * * * *')])])
 // at every 3rd minute only change
