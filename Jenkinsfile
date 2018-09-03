@@ -9,8 +9,7 @@ properties(
         [
             $class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '20']
         ],
-        pipelineTriggers([pollSCM('H/3 * * * *')])
-    
+        pipelineTriggers([pollSCM('00 00 * * 1-5')])
     ]
 )
 
