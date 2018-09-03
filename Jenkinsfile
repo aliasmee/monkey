@@ -1,7 +1,9 @@
 @Library('aistarsea-shared-lib') _
-// triggers pipeline worked
+// triggers pipeline worked at every 3rd minute
 // properties([pipelineTriggers([cron('H/3 * * * *')])])
+// at every 3rd minute only change
 properties([pipelineTriggers([pollSCM('H/3 * * * *')])])
+
 def lib = library('aistarsea-shared-lib').io.aistarsea
 import groovy.json.JsonOutput
 
