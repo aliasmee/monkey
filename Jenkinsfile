@@ -1,4 +1,5 @@
 @Library('aistarsea-shared-lib') _
+properties([pipelineTriggers([cron('H/15 * * * *')])])
 def lib = library('aistarsea-shared-lib').io.aistarsea
 import groovy.json.JsonOutput
 
