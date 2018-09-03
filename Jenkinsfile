@@ -32,7 +32,8 @@ node('jenkins-slave-build1') {
 //        println(getCommitHash())
         someMsgTest = mmUtils.commitMsg()
         println(someMsgTest)
-        
+        coverage = getTestCoverage('./.last_run.json')
+        println("${coverage}")
         testMsg = mmUtils.testMsg("${BRANCH_NAME}", "some test result", "${someMsgTest}",'',mmUtils.colorLegible('good'))
         println(testMsg)
         chatNotifySend attachments: "${testMsg}", channel: "${bearyChan}", text: "${JOB_NAME} [${BUILD_DISPLAY_NAME}](${BUILD_URL})", endpoint: "${bearyUrl}"
